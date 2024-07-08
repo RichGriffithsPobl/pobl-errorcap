@@ -4,6 +4,15 @@ import { NextResponse } from "next/server";
 export const POST = async (request: Request) => {
   try {
     const body = await request.json();
+    const headers = request.headers;
+    const token = headers.get("Authorization")?.split("Bearer ")[1];
+
+    if (!token || token !== "1234567")
+      return Response.json(
+        { message: "Unauthorized", error: "true" },
+        { status: 401 }
+      );
+
     // Auth check
     // Send data to database
     const error = {
@@ -12,7 +21,7 @@ export const POST = async (request: Request) => {
       ...body,
     };
 
-    console.log("error", error);
+    // console.log("error", error);
 
     const response = await axios.post(
       `${process.env.DATABASE_URL}/errors`,

@@ -1,4 +1,14 @@
 import { getAllErrors } from "@/actions/errorActions";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import moment from "moment";
 
 export default async function Home() {
@@ -8,7 +18,36 @@ export default async function Home() {
     <main className="m-8">
       <h2 className="text-xl font-bold">Error List</h2>
       <div>
-        <table>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Friendly Message</TableHead>
+              <TableHead>Error Message</TableHead>
+              <TableHead>Application</TableHead>
+              <TableHead className="text-right">Created</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {!errors.length && (
+              <TableRow>
+                <TableCell colSpan={3}>No errors found</TableCell>
+              </TableRow>
+            )}
+            {errors.map((error) => (
+              <TableRow key={error.id}>
+                <TableCell className="font-medium">
+                  {error.friendlyMessage}
+                </TableCell>
+                <TableCell>{error.errorMessage}</TableCell>
+                <TableCell>{error.project}</TableCell>
+                <TableCell className="text-right">
+                  {moment(error.createdAt).format("DD MMM YYYY, HH:MM")}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        {/* <table>
           <thead>
             <tr>
               <th>Friendly Message</th>
@@ -29,7 +68,7 @@ export default async function Home() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
       </div>
     </main>
   );
