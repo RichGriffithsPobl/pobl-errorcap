@@ -1,3 +1,4 @@
+import prisma from "@/lib/db";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
@@ -13,23 +14,15 @@ export const POST = async (request: Request) => {
         { status: 401 }
       );
 
-    // Auth check
-    // Send data to database
     const error = {
-      id: crypto.randomUUID(),
-      createdAt: new Date(),
       ...body,
     };
 
-    // console.log("error", error);
+    const newError = await prisma.error.create({
+      data: error,
+    });
 
-    const response = await axios.post(
-      `${process.env.DATABASE_URL}/errors`,
-      error
-    );
-
-    // Return response
-    return Response.json(response.data);
+    return Response.json({ message: "Data posted to database" });
   } catch (error) {
     if (error instanceof Error) {
       return Response.json(

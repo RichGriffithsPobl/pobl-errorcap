@@ -39,7 +39,7 @@ export default async function Home() {
                   {error.friendlyMessage}
                 </TableCell>
                 <TableCell>{error.errorMessage}</TableCell>
-                <TableCell>{error.project}</TableCell>
+                <TableCell>{error.application}</TableCell>
                 <TableCell className="text-right">
                   {moment(error.createdAt).format("DD MMM YYYY, HH:MM")}
                 </TableCell>

@@ -1,9 +1,8 @@
 "use server";
 
-import { ErrorObject } from "@/types/errorTypes";
-import axios from "axios";
+import prisma from "@/lib/db";
 
-export const getAllErrors = async (): Promise<ErrorObject[]> => {
-  const repsonse = await axios.get(`${process.env.DATABASE_URL}/errors`);
-  return repsonse.data;
+export const getAllErrors = async () => {
+  const errors = await prisma.error.findMany();
+  return errors;
 };
