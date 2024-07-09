@@ -30,6 +30,7 @@ const UserPage = async () => {
         <TableHeader>
           <TableRow>
             <TableHead>Username</TableHead>
+            <TableHead>Token</TableHead>
             <TableHead className="text-right">Created</TableHead>
           </TableRow>
         </TableHeader>
@@ -41,7 +42,8 @@ const UserPage = async () => {
           )}
           {users.map((user) => (
             <TableRow key={user.id}>
-              <TableCell className="font-medium">{user.username}</TableCell>
+              <TableCell className="font-medium">{user.email}</TableCell>
+              <TableCell className="font-medium">{user.token}</TableCell>
               <TableCell className="text-right">
                 {moment(user.createdAt).format("DD MMM YYYY")}
               </TableCell>

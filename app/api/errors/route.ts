@@ -1,6 +1,4 @@
 import prisma from "@/lib/db";
-import axios from "axios";
-import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {
   try {
@@ -8,18 +6,20 @@ export const POST = async (request: Request) => {
     const headers = request.headers;
     const token = headers.get("Authorization")?.split("Bearer ")[1];
 
-    if (!token || token !== "1234567")
+    // Find user with token
+    const user = await prisma.user.findFirst({
+      where: { token }
+    })
+
+    // No token or no user return error
+    if (!token || !user)
       return Response.json(
         { message: "Unauthorized", error: "true" },
         { status: 401 }
       );
 
-    const error = {
-      ...body,
-    };
-
-    const newError = await prisma.error.create({
-      data: error,
+    await prisma.error.create({
+      data: { ...body },
     });
 
     return Response.json({ message: "Data posted to database" });
